@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #000000;
+  --color-fg: #ffffff;
+  --color-gold: #ffd700;
+}
+
+html, body, :root {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* Smooth scrolling for a premium feel */
+html {
+  scroll-behavior: smooth;
+}
+
+.gold-gradient {
+  background: radial-gradient(100% 100% at 50% 0%, rgba(255,215,0,0.15) 0%, transparent 60%);
+}
+
+.btn-gold {
+  /* White-on-black brand: outline by default, fill on hover */
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-medium transition-colors border border-white text-white hover:bg-white hover:text-black;
+}
+
+.container-site {
+  @apply mx-auto max-w-site px-6;
+}
+
+
