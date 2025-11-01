@@ -2,13 +2,24 @@ import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = 'force-dynamic';
 
-async function getBookings() {
+type Booking = {
+  id: number;
+  fullName: string | null;
+  phone: string | null;
+  pickupCity: string | null;
+  dropCity: string | null;
+  date: string | null;
+  notes: string | null;
+  status: string | null;
+};
+
+async function getBookings(): Promise<Booking[]> {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase
     .from("bookings")
     .select("id, fullName, phone, pickupCity, dropCity, date, notes, status")
     .order("id", { ascending: false });
-  return data ?? [];
+  return (data ?? []) as Booking[];
 }
 
 export default async function AdminBookingsPage() {
@@ -36,7 +47,7 @@ export default async function AdminBookingsPage() {
             </tr>
           </thead>
           <tbody>
-            {bookings.map((b) => (
+            {bookings.map((b: Booking) => (
               <tr key={b.id} className="border-t border-white/10">
                 <td className="p-3">{b.fullName} · {b.phone}</td>
                 <td className="p-3">{b.pickupCity} → {b.dropCity}</td>
