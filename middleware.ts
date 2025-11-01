@@ -9,7 +9,10 @@ export async function middleware(req: NextRequest) {
   // allow login page without session
   if (pathname === "/admin/login") return NextResponse.next();
 
-  const token = await getToken({ req });
+  const token = await getToken({ 
+    req,
+    secret: process.env.NEXTAUTH_SECRET 
+  });
   if (!token) {
     const url = req.nextUrl.clone();
     url.pathname = "/admin/login";
@@ -20,7 +23,7 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/admin"],
 };
 
 

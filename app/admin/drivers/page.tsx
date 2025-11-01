@@ -37,11 +37,7 @@ export default async function AdminDriversPage() {
         <table className="min-w-full text-sm">
           <thead className="text-white/70">
             <tr>
-              <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Phone</th>
-              <th className="p-3 text-left">City</th>
-              <th className="p-3 text-left">Car</th>
-              <th className="p-3 text-left">Years</th>
+              <th className="p-3 text-left">Driver Details</th>
               <th className="p-3"></th>
             </tr>
           </thead>
@@ -49,21 +45,20 @@ export default async function AdminDriversPage() {
             {drivers.map((d) => (
               <tr key={d.id} className="border-t border-white/10">
                 <td className="p-3">
-                  <form action={updateDriver} className="flex gap-2 items-center">
+                  <form action={updateDriver} className="inline-flex gap-2 w-full">
                     <input type="hidden" name="id" defaultValue={d.id} />
-                    <input name="fullName" defaultValue={d.fullName || ""} className="w-44 rounded-md bg-transparent border border-white/20 px-2 py-1" />
-                    <input name="phone" defaultValue={d.phone || ""} className="w-40 rounded-md bg-transparent border border-white/20 px-2 py-1" />
-                    <input name="city" defaultValue={d.city || ""} className="w-36 rounded-md bg-transparent border border-white/20 px-2 py-1" />
-                    <input name="carModel" defaultValue={d.carModel || ""} className="w-40 rounded-md bg-transparent border border-white/20 px-2 py-1" />
-                    <input name="yearsExperience" defaultValue={d.yearsExperience || ""} className="w-24 rounded-md bg-transparent border border-white/20 px-2 py-1" />
-                    <button className="btn-gold px-4 py-2">Save</button>
+                    <input name="fullName" defaultValue={d.fullName || ""} placeholder="Name" className="flex-1 rounded-md bg-transparent border border-white/20 px-2 py-1 text-sm" />
+                    <input name="phone" defaultValue={d.phone || ""} placeholder="Phone" className="w-32 rounded-md bg-transparent border border-white/20 px-2 py-1 text-sm" />
+                    <input name="city" defaultValue={d.city || ""} placeholder="City" className="w-28 rounded-md bg-transparent border border-white/20 px-2 py-1 text-sm" />
+                    <input name="carModel" defaultValue={d.carModel || ""} placeholder="Car" className="w-32 rounded-md bg-transparent border border-white/20 px-2 py-1 text-sm" />
+                    <input name="yearsExperience" defaultValue={d.yearsExperience || ""} placeholder="Years" className="w-20 rounded-md bg-transparent border border-white/20 px-2 py-1 text-sm" />
+                    <button type="submit" className="btn-gold px-3 py-1 text-xs">Save</button>
                   </form>
                 </td>
-                <td colSpan={4}></td>
-                <td className="p-3 text-right">
+                <td className="p-3">
                   <form action={deleteDriver}>
                     <input type="hidden" name="id" defaultValue={d.id} />
-                    <button className="text-red-400 hover:underline">Delete</button>
+                    <button type="submit" className="text-red-400 hover:underline text-xs">Delete</button>
                   </form>
                 </td>
               </tr>
