@@ -17,8 +17,8 @@ async function getBookings(): Promise<Booking[]> {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase
     .from("bookings")
-    .select("id, fullName, phone, pickupCity, dropCity, date, notes, status")
-    .order("id", { ascending: false });
+    .select("id, full_name, phone, pickup_city, drop_city, date, notes, status")
+    .order('created_at', { ascending: false });
   return (data ?? []) as Booking[];
 }
 
@@ -34,7 +34,10 @@ export default async function AdminBookingsPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-[var(--font-playfair)] font-semibold">Bookings</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-[var(--font-playfair)] font-semibold">Bookings</h1>
+        <a href="/api/bookings/export" className="btn-gold">Export CSV</a>
+      </div>
       <div className="rounded-xl border border-white/10 overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="text-white/70">

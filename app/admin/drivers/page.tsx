@@ -4,7 +4,10 @@ export const dynamic = 'force-dynamic';
 
 async function getDrivers() {
   const supabase = getSupabaseAdmin();
-  const { data } = await supabase.from("drivers").select("id, fullName, phone, city, carModel, yearsExperience").order("id", { ascending: false });
+  const { data } = await supabase
+    .from("drivers")
+    .select("id, full_name, phone, city, car_model, years_experience")
+    .order('created_at', { ascending: false });
   return data ?? [];
 }
 
@@ -34,7 +37,10 @@ export default async function AdminDriversPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-[var(--font-playfair)] font-semibold">Drivers</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-[var(--font-playfair)] font-semibold">Drivers</h1>
+        <a href="/api/drivers/export" className="btn-gold">Export CSV</a>
+      </div>
       <div className="rounded-xl border border-white/10 overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="text-white/70">
@@ -44,7 +50,7 @@ export default async function AdminDriversPage() {
             </tr>
           </thead>
           <tbody>
-            {drivers.map((d) => (
+            {drivers.map((d: any) => (
               <tr key={d.id} className="border-t border-white/10">
                 <td className="p-3">
                   <form action={updateDriver} className="inline-flex gap-2 w-full">

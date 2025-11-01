@@ -48,40 +48,48 @@ openssl rand -base64 32
 
 Create these tables in your Supabase project:
 
+### Database Tables
+
+The complete SQL schema is in `supabase/migrations/20251101_initial_schema.sql`. Here's a summary:
+
 ### 1. `drivers` table
 ```sql
 CREATE TABLE drivers (
-  id SERIAL PRIMARY KEY,
-  "fullName" TEXT,
-  phone TEXT,
-  city TEXT,
-  "carModel" TEXT,
-  "yearsExperience" TEXT,
-  created_at TIMESTAMP DEFAULT NOW()
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    city TEXT NOT NULL,
+    car_model TEXT,
+    years_experience TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
 
 ### 2. `bookings` table
 ```sql
 CREATE TABLE bookings (
-  id SERIAL PRIMARY KEY,
-  "fullName" TEXT,
-  phone TEXT,
-  "pickupCity" TEXT,
-  "dropCity" TEXT,
-  date TEXT,
-  notes TEXT,
-  status TEXT DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT NOW()
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    pickup_city TEXT NOT NULL,
+    drop_city TEXT NOT NULL,
+    date TEXT,
+    notes TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
 
 ### 3. `subscribers` table
 ```sql
 CREATE TABLE subscribers (
-  id SERIAL PRIMARY KEY,
-  email TEXT UNIQUE NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW()
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    email TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
 

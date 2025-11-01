@@ -1,24 +1,63 @@
 import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+type BookingSubmission = {
+  full_name: string;
+  phone: string;
+  pickup_city: string;
+  drop_city: string;
+  date?: string;
+  notes?: string;
+  status: 'pending';
+};
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const url = process.env.BOOKING_WEBHOOK_URL;
-    if (!url) {
-      return NextResponse.json({ error: "Booking webhook not configured" }, { status: 500 });
+    
+    // Validate required fields
+    const { full_name, phone, pickup_city, drop_city } = body;
+    if (!full_name || !phone || !pickup_city || !drop_city) {
+      return NextResponse.json(
+        { error: "Please provide all required fields: name, phone, pickup city, and drop city" },
+        { status: 400 }
+      );
     }
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "booking", ...body, submittedAt: new Date().toISOString() }),
+
+    // Prepare data for insertion
+    const bookingData: BookingSubmission = {
+      full_name,
+      phone,
+      pickup_city,
+      drop_city,
+      date: body.date || null,
+      notes: body.notes || null,
+      status: 'pending'
+    };
+
+    // Insert into Supabase using admin client
+    const { error } = await supabaseAdmin
+      .from('bookings')
+      .insert(bookingData);
+
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json(
+        { error: "Failed to submit booking. Please try again later." },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: "Booking submitted successfully!",
+      ok: true
     });
-    if (!res.ok) {
-      const text = await res.text();
-      return NextResponse.json({ error: "Upstream error", details: text }, { status: 502 });
-    }
-    return NextResponse.json({ ok: true });
   } catch (e: any) {
-    return NextResponse.json({ error: e?.message ?? "Unknown error" }, { status: 500 });
+    console.error('Booking API error:', e);
+    return NextResponse.json(
+      { error: "An unexpected error occurred" },
+      { status: 500 }
+    );
   }
 }
 
