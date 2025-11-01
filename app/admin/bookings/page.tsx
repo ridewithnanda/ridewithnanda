@@ -1,5 +1,7 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 async function getBookings() {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase

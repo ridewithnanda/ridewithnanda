@@ -35,12 +35,17 @@ export const metadata: Metadata = {
   icons: [
     { rel: "icon", url: "/favicon.svg" },
   ],
-  themeColor: "#000000",
   twitter: {
     card: "summary_large_image",
     creator: "@ridewithnanda",
   },
 };
+
+export function generateViewport() {
+  return {
+    themeColor: "#000000",
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

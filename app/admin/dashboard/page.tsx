@@ -1,12 +1,17 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const supabase = getSupabaseAdmin();
-  const [{ count: drivers }, { count: bookings }, { count: subs }] = await Promise.all([
+  const [driversRes, bookingsRes, subsRes] = await Promise.all([
     supabase.from("drivers").select("id", { count: "exact", head: true }),
     supabase.from("bookings").select("id", { count: "exact", head: true }),
     supabase.from("subscribers").select("id", { count: "exact", head: true }),
   ]);
+  const drivers = driversRes?.count ?? 0;
+  const bookings = bookingsRes?.count ?? 0;
+  const subs = subsRes?.count ?? 0;
 
   return (
     <div className="space-y-6">

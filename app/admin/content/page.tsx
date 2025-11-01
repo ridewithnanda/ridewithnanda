@@ -1,5 +1,7 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 async function getContent() {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase.from("content").select("id, homepageIntro, aboutHero, aboutStory").limit(1).maybeSingle();

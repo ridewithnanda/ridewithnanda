@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase.from("subscribers").select("email, created_at").order("id", { ascending: false });

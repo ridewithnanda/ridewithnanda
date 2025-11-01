@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 async function getSubscribers() {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase.from("subscribers").select("id, email, created_at").order("id", { ascending: false });

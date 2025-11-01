@@ -1,5 +1,7 @@
 import { getSupabaseAdmin } from "@/lib/supabaseAdmin";
 
+export const dynamic = 'force-dynamic';
+
 async function getDrivers() {
   const supabase = getSupabaseAdmin();
   const { data } = await supabase.from("drivers").select("id, fullName, phone, city, carModel, yearsExperience").order("id", { ascending: false });
